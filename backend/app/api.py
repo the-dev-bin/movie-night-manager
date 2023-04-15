@@ -2,7 +2,7 @@ from typing import Any, Dict, List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
+import httpx
 app = FastAPI()
 
 origins = [
@@ -38,3 +38,17 @@ async def read_root() -> dict:
 @app.get("/movies")
 async def movies() -> MovieResponse:
     return MovieResponse(movies=temp_movies)
+
+@app.post('/movies')
+async def movies(movie: Movie):
+    temp_movies.append(movie)
+    return 200
+
+@app.get('/search')
+async def request(title: str) -> Movie:
+    url = f"http://www.omdbapi.com/"
+    response = None
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, params={'t': title, 'apikey': ''})
+    print(response.json())
+    return Movie(title="test",id=1,director='a',year=1)
