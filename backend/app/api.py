@@ -15,6 +15,8 @@ class Movie(BaseModel):
     director: str
     year: int
 
+class MovieResponse(BaseModel):
+    movies: List[Movie]
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,5 +36,5 @@ async def read_root() -> dict:
     return {"message": "Hello World"}
 
 @app.get("/movies")
-async def movies() -> List[Movie]:
-    return temp_movies
+async def movies() -> MovieResponse:
+    return MovieResponse(movies=temp_movies)
