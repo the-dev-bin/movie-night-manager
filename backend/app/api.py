@@ -1,6 +1,7 @@
+from typing import Any, Dict, List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -8,6 +9,11 @@ origins = [
     "http://localhost:3000",
     "localhost:3000"
 ]
+class Movie(BaseModel):
+    id: str
+    title: str
+    director: str
+    year: int
 
 
 app.add_middleware(
@@ -19,6 +25,14 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["root"])
+temp_movies = [
+    Movie(id = 1, title = 'Slumber Party Massacre 2', director = 'Deborah Brock', year = 1987)
+]
+
+@app.get("/")
 async def read_root() -> dict:
     return {"message": "Hello World"}
+
+@app.get("/movies")
+async def movies() -> List[Movie]:
+    return temp_movies
