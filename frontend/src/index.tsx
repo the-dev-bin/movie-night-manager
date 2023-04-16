@@ -1,15 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
+// import App from './App';
+import Home from './views/Home';
+import GroupLayout from './views/Group';
+import SuggestPage from './views/Suggest';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home></Home>,
+  },
+  {
+    path: "/group",
+    element: <GroupLayout></GroupLayout>,
+    children: [
+      {
+        path: 'suggest',
+        element: <SuggestPage></SuggestPage>
+      }
+    ]
+  }
+]);
+
 root.render(
   <React.StrictMode>
-    <App />
+      <RouterProvider router={router} />
   </React.StrictMode>
 );
 
