@@ -10,6 +10,7 @@ import reportWebVitals from './reportWebVitals';
 import Home from './views/Home';
 import GroupLayout from './views/Group';
 import SuggestPage from './views/Suggest';
+import { MantineProvider } from '@mantine/core';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -35,7 +36,9 @@ const router = createBrowserRouter([
 
 root.render(
   <React.StrictMode>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark'}}>
       <RouterProvider router={router} />
+    </MantineProvider>
   </React.StrictMode>
 );
 
