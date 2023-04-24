@@ -21,7 +21,7 @@ function GroupLayout() {
 							</ThemeIcon>
 							<Title><Link to={'/'}>Shiver</Link></Title>
 						</Group>
-						<Group position="center">
+						<Group position="right" spacing="xl">
 							<Link to={`/group/suggest`}>Suggest</Link>
 							<Link to={`/group/manage`}>Manage</Link>
 						</Group>

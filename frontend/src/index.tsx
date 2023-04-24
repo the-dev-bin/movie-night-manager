@@ -11,6 +11,7 @@ import Home from './views/Home';
 import GroupLayout from './views/Group';
 import SuggestPage from './views/Suggest';
 import { MantineProvider } from '@mantine/core';
+import ManagePage from './views/Manage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: 'suggest',
         element: <SuggestPage></SuggestPage>
+      },
+      {
+        path: 'manage',
+        element: <ManagePage></ManagePage>
       }
     ]
   }
