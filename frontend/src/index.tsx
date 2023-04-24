@@ -7,10 +7,11 @@ import {
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 // import App from './App';
-import Home from './views/Home';
+import HomePage from './views/Home';
 import GroupLayout from './views/Group';
 import SuggestPage from './views/Suggest';
 import { MantineProvider } from '@mantine/core';
+import ManagePage from './views/Manage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,7 +21,7 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home></Home>,
+    element: <HomePage></HomePage>,
   },
   {
     path: "/group",
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: 'suggest',
         element: <SuggestPage></SuggestPage>
+      },
+      {
+        path: 'manage',
+        element: <ManagePage></ManagePage>
       }
     ]
   }
