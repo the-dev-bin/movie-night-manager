@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 
-function HomePage() {
+export function HomePage() {
 	return <>
 		<AppShell>
 			<Center style={{height: '100%'}}>
@@ -19,5 +19,3 @@ function HomePage() {
 		</AppShell>
 	</>
 }
-
-export default HomePage;

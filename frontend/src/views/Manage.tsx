@@ -1,10 +1,8 @@
 import { Text } from "@mantine/core";
 
 
-function ManagePage() {
+export function ManagePage() {
 	return <>
 		<Text>Manage your movies here</Text>
 	</>
 }
-
-export default ManagePage;

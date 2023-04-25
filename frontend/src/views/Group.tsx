@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 
 
-function GroupLayout() {
+export function GroupLayout() {
 	return <>
 		<AppShell
 			header={
@@ -33,5 +33,3 @@ function GroupLayout() {
 		</AppShell>
 	</>
 }
-
-export default GroupLayout;
