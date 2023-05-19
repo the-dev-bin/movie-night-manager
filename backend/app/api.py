@@ -14,6 +14,7 @@ class Movie(BaseModel):
     title: str
     director: str
     year: int
+    poster: str
 
 class MovieResponse(BaseModel):
     movies: List[Movie]
@@ -28,7 +29,7 @@ app.add_middleware(
 
 
 temp_movies = [
-    Movie(id = 1, title = 'Slumber Party Massacre 2', director = 'Deborah Brock', year = 1987)
+    Movie(id = 1, title = 'Slumber Party Massacre 2', director = 'Deborah Brock', year = 1987, poster='https://m.media-amazon.com/images/M/MV5BMjFjMTUyOTAtMDg4Yy00YjE4LWE1ODgtODM3ZDAwZWZhN2UyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg')
 ]
 
 @app.get("/")
@@ -51,4 +52,4 @@ async def request(title: str) -> Movie:
     async with httpx.AsyncClient() as client:
         response = await client.get(url, params={'t': title, 'apikey': ''})
     print(response.json())
-    return Movie(title="test",id=1,director='a',year=1)
+    return Movie(title="test",id=1,director='a',year=1, poster='')
