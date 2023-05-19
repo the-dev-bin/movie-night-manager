@@ -22,7 +22,9 @@ export function ManagePage() {
 		<Grid grow style={{ height: '100%' }}>
 			<Grid.Col span={1} style={{ background: '#38193d' }}>
 				<Group>
-					<Night></Night>
+					{new Array(5).fill(1).map(() =>
+						<Night></Night>
+					)}
 				</Group>
 			</Grid.Col>
 			<Grid.Col span={5} style={{ background: '#68393c' }}>

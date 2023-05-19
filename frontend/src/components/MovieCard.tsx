@@ -7,7 +7,15 @@ interface MovieProp {
 
 function MovieCard({movie}: MovieProp) {
 
-	return <Card key={movie.id} withBorder padding='lg' radius='md' shadow="sm" >
+	return <Card key={movie.id} withBorder padding='lg' radius='md' shadow="sm" sx={(theme) => ({
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        cursor: 'pointer',
+
+		'&:hover': {
+          backgroundColor:
+            theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+        },
+      })}>
 		<Card.Section>
 			<Image
 				height={200}
