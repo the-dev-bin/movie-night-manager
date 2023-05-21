@@ -41,7 +41,7 @@ export function SuggestPage() {
 				align="center"
 				sx={(theme) => ({
 					height: 300,
-					width: 300
+					width: 400
 				})}
 			>
 				<Autocomplete 
@@ -49,6 +49,7 @@ export function SuggestPage() {
 					onChange={setSearchQuery}
 					value={searchQuery}
 					placeholder='Search for a movie title'
+					style={{flex: 1}}
 					radius="xl"
 				/>
 

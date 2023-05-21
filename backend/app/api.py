@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import httpx
+from config import Config
+
 app = FastAPI()
 
 origins = [
@@ -51,7 +53,7 @@ async def request(title: str) -> SearchResponse:
     url = f"http://www.omdbapi.com/"
     response = None
     async with httpx.AsyncClient() as client:
-        response = await client.get(url, params={'s': title, 'apikey': ''})
+        response = await client.get(url, params={'s': title, 'apikey': Config.omdb_key})
     print(response.json())
     omdb_data = response.json()
     if 'Error' in omdb_data:
