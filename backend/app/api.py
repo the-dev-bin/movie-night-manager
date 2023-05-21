@@ -42,9 +42,6 @@ db = boto3.resource('dynamodb',
 
 generate_table(db)
 
-temp_movies = [
-    Movie(imdbID = 1, Title = 'Slumber Party Massacre 2', Director = 'Deborah Brock', Year = 1987)
-]
 
 @app.get("/")
 async def read_root() -> dict:
