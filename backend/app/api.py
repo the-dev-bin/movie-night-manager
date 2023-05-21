@@ -10,13 +10,15 @@ origins = [
     "localhost:3000"
 ]
 class Movie(BaseModel):
-    id: str
-    title: str
-    director: str
-    year: int
+    imdbID: str
+    Title: str
+    Year: str
 
 class MovieResponse(BaseModel):
     movies: List[Movie]
+
+class SearchResponse(BaseModel):
+    Search: List[Movie]
 
 app.add_middleware(
     CORSMiddleware,
@@ -28,7 +30,7 @@ app.add_middleware(
 
 
 temp_movies = [
-    Movie(id = 1, title = 'Slumber Party Massacre 2', director = 'Deborah Brock', year = 1987)
+    Movie(imdbID = 1, Title = 'Slumber Party Massacre 2', Director = 'Deborah Brock', Year = 1987)
 ]
 
 @app.get("/")
@@ -45,10 +47,13 @@ async def movies(movie: Movie):
     return 200
 
 @app.get('/search')
-async def request(title: str) -> Movie:
+async def request(title: str) -> SearchResponse:
     url = f"http://www.omdbapi.com/"
     response = None
     async with httpx.AsyncClient() as client:
-        response = await client.get(url, params={'t': title, 'apikey': ''})
+        response = await client.get(url, params={'s': title, 'apikey': ''})
     print(response.json())
-    return Movie(title="test",id=1,director='a',year=1)
+    omdb_data = response.json()
+    if 'Error' in omdb_data:
+        return {'Search': []}
+    return omdb_data
