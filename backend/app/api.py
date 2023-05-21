@@ -4,6 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import httpx
 from config import Config
+import boto3
+from fastapi.encoders import jsonable_encoder
+from generate import generate_table
 
 app = FastAPI()
 
@@ -31,9 +34,14 @@ app.add_middleware(
 )
 
 
-temp_movies = [
-    Movie(imdbID = 1, Title = 'Slumber Party Massacre 2', Director = 'Deborah Brock', Year = 1987)
-]
+db = boto3.resource('dynamodb',
+                    endpoint_url='http://db:8000',
+                    region_name='example',
+                    aws_access_key_id='example',
+                    aws_secret_access_key='example')
+
+generate_table(db)
+
 
 @app.get("/")
 async def read_root() -> dict:
@@ -41,11 +49,16 @@ async def read_root() -> dict:
 
 @app.get("/movies")
 async def movies() -> MovieResponse:
-    return MovieResponse(movies=temp_movies)
+    table = db.Table('Movies')
+    response = table.scan()
+    movies_response = response.get('Items',[])
+    return MovieResponse(movies=movies_response)
 
 @app.post('/movies')
 async def movies(movie: Movie):
-    temp_movies.append(movie)
+    table = db.Table('Movies')
+    response = jsonable_encoder(movie)
+    table.put_item(Item=response)
     return 200
 
 @app.get('/search')
@@ -56,6 +69,6 @@ async def request(title: str) -> SearchResponse:
         response = await client.get(url, params={'s': title, 'apikey': Config.omdb_key})
     print(response.json())
     omdb_data = response.json()
-    if 'Error' in omdb_data:
+    if 'Error' in omdb_data: # TODO: Make sure this doesn't catch movies with error in title
         return {'Search': []}
     return omdb_data
