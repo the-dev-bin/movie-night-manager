@@ -23,7 +23,7 @@ export function SuggestPage() {
 		if(debounce === '') {
 			return;
 		}
-		const URL = `http://localhost:8000/search?title=${debounce}`
+		const URL = `http://localhost:42069/search?title=${debounce}`
 
 		console.log('Omdb Results called');
 		fetch(URL).then((res: any) => res.json()).then((res) => {
