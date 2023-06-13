@@ -18,6 +18,7 @@ class Movie(BaseModel):
     imdbID: str
     Title: str
     Year: str
+    Poster: str
 
 class MovieResponse(BaseModel):
     movies: List[Movie]

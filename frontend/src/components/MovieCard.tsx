@@ -7,7 +7,7 @@ interface MovieProp {
 
 function MovieCard({movie}: MovieProp) {
 
-	return <Card key={movie.id} withBorder padding='lg' radius='md' shadow="sm" sx={(theme) => ({
+	return <Card withBorder padding='lg' radius='md' shadow="sm" sx={(theme) => ({
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
         cursor: 'pointer',
 
@@ -18,12 +18,12 @@ function MovieCard({movie}: MovieProp) {
       })}>
 		<Card.Section>
 			<Image
-				height={200}
+				height={150}
 				fit="contain"
-				src={movie.poster} />
+				src={movie.Poster} />
 		</Card.Section>
 		<Group mt="md" mb="xs" >
-			<Text weight={500}>{movie.title}</Text>
+			<Text weight={500}>{movie.Title}</Text>
 		</Group>
 	</Card>
 }

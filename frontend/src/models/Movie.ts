@@ -1,9 +1,9 @@
 interface Movie {
-	title: string,
-	id: string
-    director: string
-    year: number,
-	poster: string
+	Title: string,
+	imdbID: string
+    Director: string
+    Year: number,
+	Poster: string
 }
 
 export default Movie
