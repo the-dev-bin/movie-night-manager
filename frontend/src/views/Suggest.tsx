@@ -24,7 +24,7 @@ export function SuggestPage() {
 		if (movieToSuggest) {
 			delete movieToSuggest.value;
 			console.log(movieToSuggest)
-			
+
 			fetch("http://localhost:42069/movies", {
 				method: 'POST',
 				body: JSON.stringify(movieToSuggest),
@@ -77,7 +77,7 @@ export function SuggestPage() {
 					width: 400
 				})}
 			>
-				<Autocomplete 
+				<Autocomplete
 					data={autompleteArray}
 					onChange={setSearchQuery}
 					value={searchQuery}
@@ -85,17 +85,6 @@ export function SuggestPage() {
 					style={{flex: 1}}
 					radius="xl"
 				/>
-						{
-							/*
-							<div value="hotdog" Title="Hotdog Massacre" imdbID="aousbdouiqbwe" Year="1234">
-							</div>
-							*/
-						}
-				{/* <Input
-					placeholder="Search for a movie"
-					value={searchQuery}
-					onChange={handleSearchInputChange}
-				/> */}
 				<Button onClick={handleSearchClick} size="sm" radius="xl">
 					Search
 				</Button>
