@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Input, Button, Container, Flex, Center, Autocomplete } from '@mantine/core';
+import { Input, Button, Container, Flex, Center, Autocomplete} from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { useDebouncedValue } from '@mantine/hooks';
-
+import Movie from "../models/Movie"
 
 export function SuggestPage() {
 
 	const [searchQuery, setSearchQuery] = useState("");
 	const [debounce] = useDebouncedValue(searchQuery, 200);
-	const [searchResponse, setSearchResponse] = useState([]);
+	const [searchResponse, setSearchResponse] = useState<any[]>([]);
+	const [autompleteArray, setAutompleteArray] = useState<string[]>([]);
 
 
 	const handleSearchInputChange = (event: any) => {
@@ -16,8 +18,34 @@ export function SuggestPage() {
 
 	const handleSearchClick = () => {
 		console.log(`Searching for "${searchQuery}"...`);
+		let movieToSuggest = searchResponse.find((movie: Movie) => {
+			return movie.Title === searchQuery;
+		})
+		if (movieToSuggest) {
+			delete movieToSuggest.value;
+			console.log(movieToSuggest)
+
+			fetch("http://localhost:42069/movies", {
+				method: 'POST',
+				body: JSON.stringify(movieToSuggest),
+				headers: {
+					"Content-Type": "application/json",
+				  },
+			}).then((e) => {
+				notifications.show({
+					message: `Movie Submited: ${movieToSuggest.Title}`
+				})
+				console.log(e)
+				console.log('Submitted!')
+			}).catch(err => {
+				console.log(err)
+			});
+		} else {
+			notifications.show({
+				message: 'Invalid Movie Suggested'
+			})
+		}
 	};
-	
 
 	useEffect(() => {
 		if(debounce === '') {
@@ -29,8 +57,13 @@ export function SuggestPage() {
 		fetch(URL).then((res: any) => res.json()).then((res) => {
 			console.log(res);
 
-			let a: any = res['Search'].map((movie: any) => { return {value: movie['Title']}}) /* eslint-disable-line */
-			setSearchResponse(a)
+			let a: any = res['Search'].map((movie: any) => {
+				 return {
+					value: movie['Title']
+				}
+			})
+			setSearchResponse(res['Search'])
+			setAutompleteArray(a)
 		});
 	}, [debounce])
 
@@ -44,20 +77,14 @@ export function SuggestPage() {
 					width: 400
 				})}
 			>
-				<Autocomplete 
-					data={searchResponse}
+				<Autocomplete
+					data={autompleteArray}
 					onChange={setSearchQuery}
 					value={searchQuery}
 					placeholder='Search for a movie title'
 					style={{flex: 1}}
 					radius="xl"
 				/>
-
-				{/* <Input
-					placeholder="Search for a movie"
-					value={searchQuery}
-					onChange={handleSearchInputChange}
-				/> */}
 				<Button onClick={handleSearchClick} size="sm" radius="xl">
 					Search
 				</Button>
