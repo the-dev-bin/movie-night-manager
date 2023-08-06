@@ -5,7 +5,9 @@ import {
 	Header,
 	Group,
 	Title,
-	ThemeIcon
+	ThemeIcon,
+	Button,
+	Anchor
 } from "@mantine/core";
 
 
@@ -22,6 +24,9 @@ export function GroupLayout() {
 							<Title><Link to={'/'}>Shiver</Link></Title>
 						</Group>
 						<Group position="right" spacing="xl">
+							<Anchor  href="http://localhost:42069/login/discord">
+								Login (Again)
+							</Anchor>
 							<Link to={`/group/suggest`}>Suggest</Link>
 							<Link to={`/group/manage`}>Manage</Link>
 						</Group>
