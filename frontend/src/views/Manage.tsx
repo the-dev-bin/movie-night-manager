@@ -31,14 +31,51 @@ export function ManagePage() {
 	}, [])
 
 	function onDragEnd(ctx: any) {
+		if (!ctx.destination) return;
+		console.log(ctx)
+		let destinationId = ctx.destination.droppableId;
+		if (destinationId.startsWith("night-")) {
+			if (ctx.destination.droppableId === ctx.source.droppableId) return;
 
-	}
+			const newMovies = Array.from(movies);
+
+			const [movedMovie] = newMovies.splice(ctx.source.index, 1);
+	
+			setMovies(newMovies);
+			let nightKey = destinationId.substring("night-".length)
+			let night = nights[nightKey];
+			const newNightMovies = Array.from(night.movies);
+			newNightMovies.splice(ctx.destination.index, 0, movedMovie);
+			night.movies = newNightMovies;
+			setNights({
+					[nightKey]: night,
+					...nights
+				}
+			)
+			return;
+		}
+		const newMovies = Array.from(movies);
+
+		const [movedMovie] = newMovies.splice(ctx.source.index, 1);
+		newMovies.splice(ctx.destination.index, 0, movedMovie);
+
+		setMovies(newMovies);
+	};
 	return <DragDropContext onDragEnd={onDragEnd}>
 		<Grid grow style={{ height: '100%' }}>
 			<Grid.Col span={1} style={{ background: '#38193d' }}>
 				<Group>
-					{Object.keys(nights).map(() =>
-						<Night></Night>
+					{Object.keys(nights).map((night) =>
+						<Droppable droppableId={`night-${night}`} direction="horizontal" key={night} >
+							{(provided, snapshot) => (
+								<div ref={provided.innerRef}
+									{...provided.droppableProps} style={{width: '100%'}}> 
+									<Night night={nights[night]}>
+									</Night>
+									{provided.placeholder}
+								</div>
+							)}
+						</Droppable>
 					)}
 				</Group>
 			</Grid.Col>
