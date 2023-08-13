@@ -29,7 +29,7 @@ export function SuggestPage() {
 		fetch(URL).then((res: any) => res.json()).then((res) => {
 			console.log(res);
 
-			let a: any = res['Search'].map((movie: any) => { return {value: movie['Title']}}) /* eslint-disable-line */
+			let a: any = res['Search'].map((movie: any) => { return {value: movie['Title'], key: movie['imdbID']}}) /* eslint-disable-line */
 			setSearchResponse(a)
 		});
 	}, [debounce])

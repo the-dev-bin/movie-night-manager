@@ -10,6 +10,7 @@ from generate import generate_table
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuth
+from starlette.responses import  RedirectResponse
 
 
 app = FastAPI()
@@ -49,7 +50,7 @@ oauth.register(
     access_token_url='https://discord.com/api/oauth2/token',
     authorize_url='https://discord.com/oauth2/authorize',
     api_base_url='https://discord.com/api/v10',
-    client_kwargs={'scope': 'guilds'},
+    client_kwargs={'scope': 'guilds identify'},
 )
 
 
@@ -103,7 +104,7 @@ async def auth_via_google(request: Request):
     discord = oauth.create_client('discord')
     token = await discord.authorize_access_token(request)
     request.session['user'] = token
-    return token
+    return RedirectResponse(url="http://localhost:3000/group/suggest")
 
 @app.get("/servers")
 async def get_servers(request: Request):
@@ -113,3 +114,12 @@ async def get_servers(request: Request):
         print('aospidhioqwheoi')
         resp.raise_for_status()
         return resp.json()
+
+@app.get('/discord/profile')
+async def get_discord_profile(request: Request):
+    user = request.session.get('user')
+    if user:
+        resp = await oauth.discord.get('oauth2/@me', token=user)
+        resp.raise_for_status()
+        return resp.json()['user']
+    return {"error": "User not found"}
