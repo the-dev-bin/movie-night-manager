@@ -77,6 +77,7 @@ async def movies() -> MovieResponse:
 
 @app.post('/movies')
 async def movies(movie: Movie):
+    print(movie)
     table = db.Table('Movies')
     response = jsonable_encoder(movie)
     table.put_item(Item=response)

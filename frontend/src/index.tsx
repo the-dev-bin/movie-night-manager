@@ -7,6 +7,7 @@ import {
 import reportWebVitals from './reportWebVitals';
 
 import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 
 import {ManagePage, SuggestPage, GroupLayout, HomePage} from './views';
 
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
 
 root.render(
     <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark'}}>
+      <Notifications />
       <RouterProvider router={router} />
     </MantineProvider>
 );
