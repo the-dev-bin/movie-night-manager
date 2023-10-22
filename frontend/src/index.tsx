@@ -39,12 +39,10 @@ const router = createBrowserRouter([
 ]);
 
 root.render(
-  <React.StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme: 'dark'}}>
       <Notifications />
       <RouterProvider router={router} />
     </MantineProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -5,11 +5,23 @@ import {
 	Header,
 	Group,
 	Title,
-	ThemeIcon
+	ThemeIcon,
+	Anchor,
+	Avatar
 } from "@mantine/core";
+import { useEffect, useState } from "react";
 
 
 export function GroupLayout() {
+	let [user, setUser] : any= useState();
+
+	useEffect(() => {
+		fetch('http://localhost:42069/discord/profile', {
+			credentials: "include"
+		}).then(res => res.json()).then(res => {
+			setUser(res);
+		})
+	},[])
 	return <>
 		<AppShell
 			header={
@@ -24,6 +36,9 @@ export function GroupLayout() {
 						<Group position="right" spacing="xl">
 							<Link to={`/group/suggest`}>Suggest</Link>
 							<Link to={`/group/manage`}>Manage</Link>
+							{
+								user ? (<Avatar src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`} radius="xl"></Avatar>) : <Anchor  href="http://localhost:42069/login/discord">Login (Again)</Anchor>
+							}
 						</Group>
 					</Group>
 				</Header>

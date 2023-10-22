@@ -57,12 +57,8 @@ export function SuggestPage() {
 		fetch(URL).then((res: any) => res.json()).then((res) => {
 			console.log(res);
 
-			let a: any = res['Search'].map((movie: any) => {
-				 return {
-					value: movie['Title']
-				}
-			})
-			setSearchResponse(res['Search'])
+			let a: any = res['Search'].map((movie: any) => { return {value: movie['Title'], key: movie['imdbID']}}) /* eslint-disable-line */
+			setSearchResponse(a)
 			setAutompleteArray(a)
 		});
 	}, [debounce])

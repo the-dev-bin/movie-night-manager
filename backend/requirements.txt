@@ -2,3 +2,6 @@ uvicorn
 fastapi
 httpx
 boto3
+authlib
+starlette
+itsdangerous
